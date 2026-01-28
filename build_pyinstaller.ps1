@@ -9,7 +9,7 @@ if (!(Test-Path .\.venv\Scripts\python.exe)) {
 }
 
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-exe.txt
 .\.venv\Scripts\python.exe -m pip install pyinstaller
 
 $dist = Join-Path $root 'dist'
@@ -23,6 +23,7 @@ if (Test-Path $build) { Remove-Item -Recurse -Force $build }
   --add-data "THSarabunNew.ttf;." `
   --add-data "assets\db;assets\db" `
   --collect-all PyQt5 `
+  --collect-submodules PyQt5 `
   main.py
 
 Write-Host "OK: built dist\\MimiStock" -ForegroundColor Green

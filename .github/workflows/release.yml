@@ -21,7 +21,7 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-exe.txt
           python -m pip install pyinstaller
 
       - name: Build EXE (PyInstaller)
@@ -33,6 +33,7 @@ jobs:
             --add-data "THSarabunNew.ttf;." ^
             --add-data "assets\db;assets\db" ^
             --collect-all PyQt5 ^
+            --collect-submodules PyQt5 ^
             main.py
 
       - name: Package

@@ -1,0 +1,12 @@
+# Minimal runtime deps for building MimiStock EXE
+# Keep this small and wheel-friendly for CI.
+PyQt5==5.15.9
+PyQt5-Qt5==5.15.2
+PyQt5-sip==12.15.0
+pytz==2025.1
+gspread==6.1.4
+oauth2client==4.1.3
+requests==2.32.3
+reportlab==4.3.0
+pillow==10.4.0
+python-dateutil==2.9.0.post0
