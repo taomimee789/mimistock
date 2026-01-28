@@ -22,6 +22,7 @@ if (Test-Path $build) { Remove-Item -Recurse -Force $build }
   --icon assets\icon.ico `
   --add-data "THSarabunNew.ttf;." `
   --add-data "assets\db;assets\db" `
+  --collect-all PyQt5 `
   main.py
 
 Write-Host "OK: built dist\\MimiStock" -ForegroundColor Green

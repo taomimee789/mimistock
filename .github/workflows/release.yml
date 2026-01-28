@@ -32,6 +32,7 @@ jobs:
             --icon assets\icon.ico ^
             --add-data "THSarabunNew.ttf;." ^
             --add-data "assets\db;assets\db" ^
+            --collect-all PyQt5 ^
             main.py
 
       - name: Package
