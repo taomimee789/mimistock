@@ -20,6 +20,9 @@ bot_system.backup-*.db
 
 # dev scripts
 _*.py
+build/
+dist/
+*.spec
 
 # allow templates to be committed
 !assets/db/*.db
