@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+.idea/
+.sync/
+receipts/
+*.pyc
+*.log
+
+# DBs
+bot_system.db
+bot_system.backup-*.db
+*.db-journal
+
+# secrets
+*.json
+
+# local junk/backups
+?????/
+สำรอง*/
+
+# dev scripts
+_*.py
+
+# allow templates to be committed
+!assets/db/*.db
