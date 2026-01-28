@@ -25,6 +25,7 @@ jobs:
           python -m pip install pyinstaller
 
       - name: Build EXE (PyInstaller)
+        shell: cmd
         run: |
           pyinstaller --noconfirm --clean --windowed ^
             --name MimiStock ^
