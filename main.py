@@ -4,12 +4,15 @@ import sys
 
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtGui import QFont, QFontDatabase
+from PyQt5.QtCore import QTimer
 
 from database import init_db
 from main_ui import SQLiteApp
-from paths import user_db_path, templates_dir
+from paths import user_db_path, templates_dir, resource_path
 import shutil
 from pathlib import Path
+
+from auto_update import check_update, apply_update, should_check_updates
 
 
 def _ensure_user_db(app: QApplication) -> Path:
@@ -46,9 +49,10 @@ def _ensure_user_db(app: QApplication) -> Path:
 def main() -> int:
     app = QApplication(sys.argv)
 
-    # ตั้งฟอนต์ให้รองรับภาษาไทยใน UI
+    # ตั้งฟอนต์ให้รองรับภาษาไทยใน UI (รองรับตอนเป็นไฟล์ .exe ของ PyInstaller)
     try:
-        font_id = QFontDatabase.addApplicationFont("THSarabunNew.ttf")
+        font_file = resource_path("THSarabunNew.ttf")
+        font_id = QFontDatabase.addApplicationFont(str(font_file))
         if font_id != -1:
             families = QFontDatabase.applicationFontFamilies(font_id)
             if families:
@@ -66,6 +70,22 @@ def main() -> int:
 
     win = SQLiteApp()
     win.show()
+
+    # Auto-update (no button): check GitHub Releases; if newer, download and update immediately.
+    # User data is safe because DB is stored in %APPDATA%\\APP_ID (see paths.user_db_path()).
+    def _maybe_update() -> None:
+        if not should_check_updates():
+            return
+        info = check_update(asset_name_preference=None)
+        if not info:
+            return
+        if apply_update(info):
+            # quit app so updater can replace files
+            app.quit()
+
+    # run after UI shows
+    QTimer.singleShot(800, _maybe_update)
+
     return app.exec_()
 
 
