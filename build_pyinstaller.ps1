@@ -21,6 +21,9 @@ if (Test-Path $build) { Remove-Item -Recurse -Force $build }
   --name MimiStock `
   --icon assets\icon.ico `
   --add-data "THSarabunNew.ttf;." `
+  --add-data "THSarabunNew Bold.ttf;." `
+  --add-data "THSarabunNew Italic.ttf;." `
+  --add-data "THSarabunNew BoldItalic.ttf;." `
   --add-data "assets\db;assets\db" `
   --collect-all PyQt5 `
   --collect-submodules PyQt5 `

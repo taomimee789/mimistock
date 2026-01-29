@@ -673,9 +673,34 @@ class SellWindow(QWidget):
         )
 
         # ✅ โหลดฟอนต์ภาษาไทย (รองรับทั้งรันจากซอร์ส และตอนเป็นไฟล์ .exe ของ PyInstaller)
-        font_path = resource_path("THSarabunNew.ttf")
-        if font_path.exists():
-            pdfmetrics.registerFont(TTFont("THSarabunNew", str(font_path)))
+        # หมายเหตุ: ใน Paragraph ที่มี <b> จะเรียกใช้ฟอนต์ bold ถ้าไม่ register ไว้จะ fallback แล้วกลายเป็น "ต่างดาว/สี่เหลี่ยม"
+        font_regular = resource_path("THSarabunNew.ttf")
+        font_bold = resource_path("THSarabunNew Bold.ttf")
+        font_italic = resource_path("THSarabunNew Italic.ttf")
+        font_bold_italic = resource_path("THSarabunNew BoldItalic.ttf")
+
+        if font_regular.exists():
+            pdfmetrics.registerFont(TTFont("THSarabunNew", str(font_regular)))
+            # register bold/italic ถ้ามี (เพื่อรองรับ <b> และ <i>)
+            if font_bold.exists():
+                pdfmetrics.registerFont(TTFont("THSarabunNew-Bold", str(font_bold)))
+            if font_italic.exists():
+                pdfmetrics.registerFont(TTFont("THSarabunNew-Italic", str(font_italic)))
+            if font_bold_italic.exists():
+                pdfmetrics.registerFont(TTFont("THSarabunNew-BoldItalic", str(font_bold_italic)))
+
+            try:
+                pdfmetrics.registerFontFamily(
+                    "THSarabunNew",
+                    normal="THSarabunNew",
+                    bold="THSarabunNew-Bold",
+                    italic="THSarabunNew-Italic",
+                    boldItalic="THSarabunNew-BoldItalic",
+                )
+            except Exception:
+                # ถ้าบางตัวไม่มี ก็ยังใช้ regular ได้
+                pass
+
             font_name = "THSarabunNew"
         else:
             # ถ้าไม่เจอฟอนต์ไทย จะทำให้ภาษาไทยเพี้ยน/เป็นต่างดาวได้
