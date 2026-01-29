@@ -43,6 +43,8 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 
+from paths import resource_path
+
 
 class SellWindow(QWidget):
     def __init__(self):
@@ -670,12 +672,13 @@ class SellWindow(QWidget):
             bottomMargin=0 * mm
         )
 
-        # ✅ โหลดฟอนต์ภาษาไทย
-        font_path = os.path.abspath("THSarabunNew.ttf")
-        if os.path.exists(font_path):
-            pdfmetrics.registerFont(TTFont("THSarabunNew", font_path))
+        # ✅ โหลดฟอนต์ภาษาไทย (รองรับทั้งรันจากซอร์ส และตอนเป็นไฟล์ .exe ของ PyInstaller)
+        font_path = resource_path("THSarabunNew.ttf")
+        if font_path.exists():
+            pdfmetrics.registerFont(TTFont("THSarabunNew", str(font_path)))
             font_name = "THSarabunNew"
         else:
+            # ถ้าไม่เจอฟอนต์ไทย จะทำให้ภาษาไทยเพี้ยน/เป็นต่างดาวได้
             font_name = "Helvetica"
 
         styles = getSampleStyleSheet()
